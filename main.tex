@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{titlesec}
+\usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage[txtcentered=true, height=40pt, width=70pt]{thumbs}
@@ -56,7 +57,28 @@
 	\]
 }
 
-\section*{Nyquist-Kriterien}
+% TODO: Rekonstruktions-Tiefpass-Filter
+
+\section*{Erstes Nyquist-Kriterium}
+Bei der Schrittgeschwindigkeit $R_s = \frac{1}{T_s}$ erfüllt ein Impuls $g(t)$ das erste Nyquist-Kriterium, wenn
+\[
+	g(t) \overset{!}{=} \begin{cases}
+		1 & t = 0\\
+		0 & t = k ~ T_s, ~ k \neq 0, ~ k \in \mathbb Z
+	\end{cases} \qquad \text{(Zeitbereich)}
+\]
+\[
+	\Leftrightarrow
+\]
+\[
+	\frac{\omega_s}{2 \pi} ~ \sum_{k = -\infty}^\infty G(\omega - k \omega_s) \overset{!}{=} 1 \quad \text{mit} ~ \omega_s = \frac{2 \pi}{T_s} \qquad \text{(Frequenzbereich)}
+\]
+
+Frequenzbereich intuitiv: Um $\ldots, ~ -\omega_s, ~ 0, ~ \omega_s, ~ 2 \omega_s, ~ \ldots$ verschobene Spektra addieren sich zu $1$ auf!
+Wenn das erste Nyquist-Kriterium erfüllt ist, dann gibt es keine Intersymbol-Interferenz (ISI).
+
+\textbf{Hinweis:} Das zweite Nyquist-Kriterium ist heute kaum noch praxisrelevant.
+
 \section*{Gray-Labelling}
 \section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
 \section*{Partial-Response-Impulsformung}
@@ -65,10 +87,20 @@
 \section*{Sender- / Empfängerunzulänglichkeiten}
 \section*{OFDM und FFT / iFFT}
 \section*{Mathe-Formelsammlung}
+\subsection*{Additionstheoreme}
+\[\sin(\alpha + \beta)=\sin(\alpha)\cos(\beta)+\cos(\alpha)\sin(\beta)\]
+\[\sin(\alpha - \beta)=\sin(\alpha)\cos(\beta)-\cos(\alpha)\sin(\beta)\]
+\[\cos(\alpha + \beta)=\cos(\alpha)\cos(\beta)-\sin(\alpha)\sin(\beta)\]
+\[\cos(\alpha - \beta)=\cos(\alpha)\cos(\beta)+\sin(\alpha)\sin(\beta)\]
+\[\sin^2(\alpha)+\cos^2(\alpha)=1\]
+\[\sin^2(\alpha)-\cos^2(\alpha)=-\cos(2\alpha)\]
+\[\cos^2(\alpha)-\sin^2(\alpha)=\cos(2\alpha)\]
+\[\cos(x)^2 = \frac{1}{2} \left(1 + \cos(2x) \right) \qquad \sin(x)^2 = \frac{1}{2} \left(1 - \cos(2x) \right)\]
 
 % TODO: Anwendung der Q-Funktion irgendwie graphisch darstellen, also was bedeutet Q((D - a) / \sigma) bildlich?
 % TODO: Eigenschaften der Q-Funktion und PHI-Funktion
 % TODO: Mittlere signalleistung: E_s = E[|x|^2]
+% TODO: Definition raised cosine-Impuls, Bandbreite
 
 \end{document}
 
