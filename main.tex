@@ -1,0 +1,50 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage[txtcentered=true, height=40pt, width=70pt]{thumbs}
+\usepackage[left=1.5cm, top=2cm, right=2.5cm]{geometry}
+\usepackage{subcaption}
+\usepackage{circuitikz}
+\usepackage{textcomp}
+\usepackage{multicol}
+\usepackage{upgreek}
+\usepackage{empheq}
+\usepackage{array}
+\usepackage{float}
+
+\pagenumbering{arabic}
+
+\newcommand{\fancythumb}[2]{
+	\addthumb{#1}{\large\sffamily\textbf{\space\space#1\vspace{5pt}}}{white}{#2}
+}
+
+\DeclareMathOperator{\Si}{Si}
+
+\titleformat*{\section}{\sffamily\Large\bfseries}
+\titleformat*{\subsection}{\sffamily\large\bfseries}
+\titleformat*{\subsubsection}{\sffamily\normalsize\bfseries}
+\titleformat*{\paragraph}{\sffamily\normalsize\bfseries}
+
+\begin{document}
+
+\section*{Abstastung und Quantisierung}
+\section*{Nyquist-Kriterien}
+\section*{Gray-Labelling}
+\section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
+\section*{Partial-Response-Impulsformung}
+\section*{Einseitenband-AM und Hilbertfilter}
+\section*{QAM}
+\section*{Sender- / Empfängerunzulänglichkeiten}
+\section*{OFDM und FFT / iFFT}
+\section*{Mathe-Formelsammlung}
+
+% TODO: Anwendung der Q-Funktion irgendwie graphisch darstellen, also was bedeutet Q((D - a) / \sigma) bildlich?
+% TODO: Eigenschaften der Q-Funktion und PHI-Funktion
+% TODO: Mittlere signalleistung: E_s = E[|x|^2]
+
+\end{document}
+
