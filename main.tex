@@ -33,6 +33,7 @@
 \usepgfplotslibrary{fillbetween}
 
 \DeclareMathOperator{\Si}{Si}
+\DeclareMathOperator{\sinc}{sinc}
 
 \titleformat*{\section}{\sffamily\Large\bfseries}
 \titleformat*{\subsection}{\sffamily\large\bfseries}
@@ -81,6 +82,45 @@ Frequenzbereich intuitiv: Um $\ldots, ~ -\omega_s, ~ 0, ~ \omega_s, ~ 2 \omega_s
 Wenn das erste Nyquist-Kriterium erfüllt ist, dann gibt es keine Intersymbol-Interferenz (ISI).
 
 \textbf{Hinweis:} Das zweite Nyquist-Kriterium ist heute kaum noch praxisrelevant.
+
+\section*{Raised-Cosine-Impulsformung}
+$\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbolrate. Für $\alpha = 0$ ist der Raised-Cosine-Impuls ein $\sinc$-Impuls, d.h. ein idealer Tiefpass.
+
+\begin{multicols}{2}
+	\fancyformula{Impulsantwort $g(t)$}{
+		\[
+			g(t) ~ T= \begin{cases}
+				1 & t = 0 \\
+				\frac{\sin(\pi / (2 \alpha))}{\pi / (2 \alpha)} ~ \frac{\pi}{4} & |t| = \frac{T}{2 \alpha} \\
+				\frac{\sin(\pi t / T)}{\pi t / T} ~ \frac{\cos(\alpha \pi t / T)}{1 - (2 \alpha t / T)^2} & \text{sonst}
+			\end{cases}
+		\]
+	}
+
+	\fancyformula{Basisband-Bandbreite}{
+		\[
+			B_{\mathrm{BB}} = \frac{1}{2} ~ (1 + \alpha) ~ R_s
+		\]
+	}
+
+	\fancyformula{Spektrum $G(f)$}{
+		\[
+			G(f) = \begin{cases}
+				1 & |f| \leq \frac{1 - \alpha}{2T} \\
+				\frac{1}{2} ~ \left(1 + \cos \left(\frac{\pi T}{\alpha} ~ (|f| - \frac{1 - \alpha}{2 T}) \right) \right) & \frac{1 - \alpha}{2 T} \leq |f| \leq \frac{1 + \alpha}{2 T} \\
+				0 & \text{sonst}
+			\end{cases}
+		\]
+	}
+
+	\fancyformula{Bandpassbereich-Bandbreite}{
+		\[
+			B_{\mathrm{BP}} = (1 + \alpha) ~ R_s
+		\]
+	}
+\end{multicols}
+
+% TODO: Möglicherweise Zeichnung von G(f)?
 
 \section*{Gray-Labelling}
 \section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
