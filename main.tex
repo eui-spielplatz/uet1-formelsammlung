@@ -39,6 +39,7 @@
 \DeclareMathOperator{\sinc}{sinc}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\rect}{rect}
+\DeclareMathOperator{\ld}{ld}
 
 \titleformat*{\section}{\sffamily\Large\bfseries}
 \titleformat*{\subsection}{\sffamily\large\bfseries}
@@ -129,7 +130,8 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 
 \section*{Gray-Labelling}
 \section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
-\begin{figure}[h]
+\subsection*{Allgemein}
+\begin{figure}[H]
 \centering
 \begin{subfigure}{0.54\textwidth}
 	\[
@@ -193,6 +195,27 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 \end{subfigure}
 \end{figure}
 
+\subsection*{Für verschiedene Modulationsarten}
+Mit Basisbandrauschleistung $N_0 = 2 \sigma_n^2$ ergibt sich Basisband-SNR zu $\mathrm{SNR}_s = \frac{E_s}{N_0}$.
+
+\begin{tabular}{r | c c}
+	& SER, $P_{s, \mathrm{err}}$ & BER, $P_{b, \mathrm{err}}$, * \\ \hline \\[-1.0em]
+	BPSK & $Q \left( \sqrt{2 ~ \mathrm{SNR}_s} \right)$ & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
+	QPSK & $\sim 2 ~ Q \left( \sqrt{\mathrm{SNR}_s} \right)$  & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
+	M-PSK & $\sim 2 ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_s} ~ \sin(\pi / M) \right)$ & $\sim \frac{2}{\ld(M)} ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_b ~ \ld(M)} ~ \sin(\pi / M) \right)$ \\
+	M-PAM & $2 ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6}{M^2 - 1} ~ \mathrm{SNR}_s} \right)$ & $~\sim \frac{2}{\ld(M)} ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6 ~ \ld(M)}{M^2 - 1} ~ \mathrm{SNR}_b} \right)$ \\
+	M-QAM & $\sim 4 ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_s}{M - 1}} \right)$ & $\sim \frac{4}{\ld(M)} ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_b ~ \ld(M)}{M - 1}} \right)$
+\end{tabular}
+
+\vspace{5pt}
+
+* Für Coderate $R_c = 1$ (keine Redundanzcodierung) folgt $\mathrm{SNR}_b = \frac{\mathrm{SNR}_s}{M_b} = \frac{\mathrm{SNR}_s}{\ld(M)}$.
+
+Näherung für hohes SNR und Gray-Labeling:
+\[
+	P_{s, \mathrm{err}} = M_b ~ P_{b, \mathrm{err}}
+\]
+
 \section*{Partial-Response-Impulsformung}
 \section*{Puls-Amplituden Modulation (PAM)}
 \begin{figure}[H]
@@ -214,6 +237,16 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 
 \section*{Einseitenband-AM und Hilbertfilter}
 \section*{QAM}
+Der \textit{\textbf{constellation mapper}} ordnet den Symbolen $M$ verschiedene I/Q-Werte (Konstellationen) zu. Pro Symbol werden also
+\[
+	M_b = \ld M ~ \left[ \frac{\mathrm{bit}}{\mathrm{symbol}} \right]
+\]
+
+Bits übertragen. Mit einer \textbf{Symbolrate} (= Schrittgeschwindigkeit) $R_s ~ \left[\frac{\mathrm{symbol}}{s} = \mathrm{Baud}\right]$ ergibt sich die \textbf{Bitrate} $R_b$ zu
+\[
+	R_b = M_b ~ R_s \quad \left[ \frac{\mathrm{bit}}{s} \right]
+\]
+
 \section*{Sender- / Empfängerunzulänglichkeiten}
 \subsection*{Frequenzoffset}
 Für jedes Symbol steigt der Phasenoffset um
