@@ -198,14 +198,16 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 \subsection*{Für verschiedene Modulationsarten}
 Mit Basisbandrauschleistung $N_0 = 2 \sigma_n^2$ ergibt sich Basisband-SNR zu $\mathrm{SNR}_s = \frac{E_s}{N_0}$.
 
-\begin{tabular}{r | c c}
-	& SER, $P_{s, \mathrm{err}}$ & BER, $P_{b, \mathrm{err}}$, * \\ \hline \\[-1.0em]
-	BPSK & $Q \left( \sqrt{2 ~ \mathrm{SNR}_s} \right)$ & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
-	QPSK & $\sim 2 ~ Q \left( \sqrt{\mathrm{SNR}_s} \right)$  & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
-	M-PSK & $\sim 2 ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_s} ~ \sin(\pi / M) \right)$ & $\sim \frac{2}{\ld(M)} ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_b ~ \ld(M)} ~ \sin(\pi / M) \right)$ \\
-	M-PAM & $2 ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6}{M^2 - 1} ~ \mathrm{SNR}_s} \right)$ & $~\sim \frac{2}{\ld(M)} ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6 ~ \ld(M)}{M^2 - 1} ~ \mathrm{SNR}_b} \right)$ \\
-	M-QAM & $\sim 4 ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_s}{M - 1}} \right)$ & $\sim \frac{4}{\ld(M)} ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_b ~ \ld(M)}{M - 1}} \right)$
-\end{tabular}
+\begin{center}
+	\begin{tabular}{r | c c}
+		& SER, $P_{s, \mathrm{err}}$ & BER, $P_{b, \mathrm{err}}$, * \\ \hline \\[-1.0em]
+		BPSK & $Q \left( \sqrt{2 ~ \mathrm{SNR}_s} \right)$ & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
+		QPSK & $\sim 2 ~ Q \left( \sqrt{\mathrm{SNR}_s} \right)$  & $Q \left( \sqrt{2 ~ \mathrm{SNR}_b} \right)$ \\
+		M-PSK & $\sim 2 ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_s} ~ \sin(\pi / M) \right)$ & $\sim \frac{2}{\ld(M)} ~ Q \left( \sqrt{2 ~ \mathrm{SNR}_b ~ \ld(M)} ~ \sin(\pi / M) \right)$ \\
+		M-PAM & $2 ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6}{M^2 - 1} ~ \mathrm{SNR}_s} \right)$ & $~\sim \frac{2}{\ld(M)} ~ \left( 1 - \frac{1}{M} \right) ~ Q \left(\sqrt{\frac{6 ~ \ld(M)}{M^2 - 1} ~ \mathrm{SNR}_b} \right)$ \\
+		M-QAM & $\sim 4 ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_s}{M - 1}} \right)$ & $\sim \frac{4}{\ld(M)} ~ Q \left( \sqrt{\frac{3 ~ \mathrm{SNR}_b ~ \ld(M)}{M - 1}} \right)$
+	\end{tabular}
+\end{center}
 
 \vspace{5pt}
 
