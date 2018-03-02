@@ -320,6 +320,117 @@ Seien $T > 0$, $\omega_0 > 0$:
 	\[ \frac{1}{\pi t} \ftransform - j \sgn(\omega)\]
 \end{multicols}
 
+\subsubsection*{Rechteckimpulsformer}
+\begin{figure}[H]
+	\begin{subfigure}{0.45\textwidth}
+		\caption*{Rechteckimpuls $g(t)$ im Zeitbereich}
+		\centering
+		\scalebox{0.8}{
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines=center, 
+				xlabel = {$t$},
+				ylabel = {$g(t)$},
+				xticklabels = {$-T_s / 2$, $T_s / 2$},
+				xtick = {-0.5, 0.5},
+				xmin = -2,
+				xmax = 2,
+				ymin = -0.3,
+				ymax = 1.2,
+				samples = 200
+			]
+				\addplot+[blue!60!black, thick, no marks, const plot] coordinates {(-2,0)(-1,0)(-0.5,1)(0,1)(0.5,0)(2,0)};
+			\end{axis}
+		\end{tikzpicture}}
+		\[ g(t) = \rect \left( \frac{t}{T_s / 2} \right) \]
+	\end{subfigure}
+	\begin{subfigure}{0.1\textwidth}
+		\centering
+		\huge
+		\[\ftransform\]
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\caption*{$\sinc$-Frequenzspektrum G(f)}
+		\centering
+		\scalebox{0.8}{
+		\begin{tikzpicture}
+			\begin{axis}[ 
+				axis lines = center,
+				xlabel = {$f$},
+				ylabel = {$G(f)$},
+				xticklabels = {$-2 R_s$, $-R_s$, $R_s$, $2 R_s$},
+				xtick = {-2, -1, 1, 2},
+				yticklabels = {$T_s$},
+				ytick = {1},
+				xmin = -3.2,
+				xmax = 3.2,
+				ymin = -0.3,
+				ymax = 1.2,
+				samples = 200
+			]
+				\addplot[green!60!black, thick, no marks]{sin(pi*deg(x))/(pi*x)};
+			\end{axis}
+		\end{tikzpicture}}
+		\[ G(f) = T_s ~ \sinc \left(\pi T_s f \right) = \frac{1}{R_s} ~ \sinc \left(\frac{\pi f}{R_s} \right) \]
+	\end{subfigure}
+\end{figure}
+
+\subsubsection*{$\sin(x) / x$-Impulsformung}
+\begin{figure}[H]
+	\begin{subfigure}{0.45\textwidth}
+		\caption*{$\sin(x) / x$ im Zeitbereich}
+		\centering
+		\scalebox{0.8}{
+			\begin{tikzpicture}
+			\begin{axis}[
+				axis lines = center, 
+				xlabel = {$t$},
+				ylabel = {$g(t)$},
+				xticklabels = {$-T_s$, $T_s$},
+				xtick = {-1, 1},
+				xmin = -3.2,
+				xmax = 3.2,
+				ymin = -0.3,
+				ymax = 1.2,
+				samples = 200
+			]
+				\addplot[blue!60!black, thick, no marks]{sin(pi*deg(x))/(pi*x)};			
+			\end{axis}
+			\end{tikzpicture}}
+		\[ g(t) = \sinc\left(\frac{\pi t}{T_{S}}\right) \]
+	\end{subfigure}
+	\begin{subfigure}{0.1\textwidth}
+		\centering
+		\huge
+		\[\ftransform\]
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\caption*{$\rect$-Frequenzspektrum G(f)}
+		\centering
+		\scalebox{0.8}{
+			\begin{tikzpicture}
+				\begin{axis}[ 
+					axis lines = center,
+					xlabel = {$f$},
+					ylabel = {$G(f)$},
+					xticklabels = {$-R_s / 2$, $R_s / 2$},
+					xtick = {-0.5, 0.5},
+					yticklabels = {$T_s$},
+					ytick = {1},
+					xmin = -2,
+					xmax = 2,
+					ymin = -0.3,
+					ymax = 1.2,
+					samples = 200
+				]
+				\addplot[green!60!black, thick, no marks, const plot] coordinates {(-2,0)(-1,0)(-0.5,1)(0,1)(0.5,0)(2,0)};
+			\end{axis}
+			\end{tikzpicture}}
+		\[
+		G(f) = T_s ~ \rect(2 T_s ~ f) = \frac{1}{R_s} ~ \rect \left(\frac{f}{R_s / 2} \right) \]
+	\end{subfigure}
+\end{figure}
+
 
 % TODO: Anwendung der Q-Funktion irgendwie graphisch darstellen, also was bedeutet Q((D - a) / \sigma) bildlich?
 % TODO: Eigenschaften der Q-Funktion und PHI-Funktion
