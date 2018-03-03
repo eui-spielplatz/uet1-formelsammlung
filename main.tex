@@ -142,7 +142,7 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 \centering
 \begin{subfigure}{0.54\textwidth}
 	\[
-		p_n(\xi) = \frac{1}{\sqrt{2 \pi} \sigma} ~ e^{-\frac{1}{2\sigma^2} ~ \xi^2}
+		p_n(\xi) = \frac{1}{\sqrt{2 \pi} \sigma} ~ e^{-\frac{1}{2\sigma^2} ~ |\xi|^2} \quad \mathrm{mit} ~ \xi \in \mathbb C ~ \text{oder} ~ \xi \in \mathbb R
 	\]
 	\[
 		P[n \leq c] = \int_{-\infty}^c p_n(\xi) ~ \mathrm d\xi = \mathrm{CDF}\left( \frac{c}{\sigma} \right) = \Phi \left( \frac{c}{\sigma} \right)
@@ -257,6 +257,19 @@ Bits übertragen. Mit einer \textbf{Symbolrate} (= Schrittgeschwindigkeit) $R_s 
 \]
 
 \section*{Sender- / Empfängerunzulänglichkeiten}
+\subsection*{Rauschen allgemein}
+Mit $\sigma^2$ \ldots Varianz der Gaußverteilung und $E_s = E[|x_k|^2]$ \ldots Signalleistung ($x_k$ sind die Symbole):
+
+Für reelles Basisband (AM) gilt:
+\[
+	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{\sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{\mathrm{SNR}_s}}
+\]
+
+Für komplexes Basisband (QAM) teilt sich die Rauschleistung auf beide Dimensionen auf:
+\[
+	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{{\color{red} 2} ~ \sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{2 ~ \mathrm{SNR}_s}}
+\]
+
 \subsection*{Rauschen im Sender}
 TX-Rauschen wird durch den EVM-Wert (Error Vector Magnitude) angegeben. Am Senderausgang gilt:
 \[
