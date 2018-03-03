@@ -43,6 +43,10 @@
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\rect}{rect}
 \DeclareMathOperator{\ld}{ld}
+\let\Re\relax
+\let\Im\relax
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
 
 \titleformat*{\section}{\sffamily\Large\bfseries}
 \titleformat*{\subsection}{\sffamily\large\bfseries}
@@ -253,11 +257,34 @@ Bits übertragen. Mit einer \textbf{Symbolrate} (= Schrittgeschwindigkeit) $R_s 
 \]
 
 \section*{Sender- / Empfängerunzulänglichkeiten}
+\subsection*{Rauschen im Sender}
+TX-Rauschen wird durch den EVM-Wert (Error Vector Magnitude) angegeben. Am Senderausgang gilt:
+\[
+	\mathrm{EVM} = \frac{1}{\mathrm{SNR}} \quad \Leftrightarrow \quad \mathrm{EVM}|_{\mathrm{dB}} = - \mathrm{SNR}|_{\mathrm{dB}}
+\]
+
+\subsection*{Phasenoffset}
+Ein geschätztes Phasenoffset von $\hat \varphi$ kann durch Multiplikation der Empfangssymbole mit $e^{-j \varphi}$ korrigiert werden.
+
 \subsection*{Frequenzoffset}
 Für jedes Symbol steigt der Phasenoffset um
 \[
 	\varphi_{\mathrm{inc}} = 2 \pi f_{\mathrm{off}} ~ T_s
 \]
+
+\subsection*{IQ-Imbalance}
+DC-Offset des Q-Kanals um $d_{\mathrm{imb}}$, Phasenoffset des Q-Kanals um $\varphi_{\mathrm{imb}}$, Amplitudenoffset des Q-Kanals um $a_{\mathrm{imb}}$. Aus idealem Symbol $s \rightarrow \mathbf s = (\Re(s) ~~ \Im(s))^T$ wird $s_{\mathrm{imb}} \rightarrow \mathbf s_{\mathrm{imb}} = (\Re(s_{\mathrm{imb}}) ~~ \Im(s_{\mathrm{imb}}))^T$:
+\[
+	\mathbf s_{\mathrm{imb}} = \begin{pmatrix}
+		1 & -a_\mathrm{imb} ~ \sin(\varphi_\mathrm{imb}) \\
+		0 & ~~ a_\mathrm{imb} ~ \cos(\varphi_\mathrm{imb})
+	\end{pmatrix} ~ \mathbf s + \begin{pmatrix}
+		0 \\
+		d_\mathrm{imb}
+	\end{pmatrix}
+\]
+
+Schätzung der IQ-Imbalance durch Pilotsymbole, Kompensation durch Inversion der obigen Gleichung.
 
 \section*{OFDM und FFT / iFFT}
 \begin{itemize}
@@ -387,9 +414,9 @@ Sei Definition der Rechteckfunktion:
 	\end{cases}
 \]
 
-Seien $T > 0$, $\omega_0 > 0$:
+Seien $t_0 > 0$, $\omega_0 > 0$:
 \begin{multicols}{2}
-	\[ \rect \left(\frac{t}{T} \right) \ftransform 2 T ~ \sinc(\omega T) \]
+	\[ \rect \left(\frac{t}{t_0} \right) \ftransform 2 t_0 ~ \sinc(t_0 ~ \omega) \]
 	\[ \frac{\omega_0}{\pi} ~ \sinc(\omega_0 t) \ftransform \rect \left( \frac{\omega}{\omega_0} \right) \]
 	\[ \cos(\omega_0 t - \varphi) \ftransform \pi ~ [\delta(\omega - \omega_0) ~ e^{-j \varphi} + \delta(\omega + \omega_0) ~ e^{j \varphi}] \]
 	\[ \sin(\omega_0 t - \varphi) \ftransform \frac{\pi}{j} ~ [\delta(\omega - \omega_0) ~ e^{-j \varphi} - \delta(\omega + \omega_0) ~ e^{j \varphi}] \]
@@ -512,7 +539,6 @@ Seien $T > 0$, $\omega_0 > 0$:
 
 % TODO: Mittlere signalleistung: E_s = E[|x|^2]
 % TODO: Basisband SNR für 1D / 2D - Signal
-% TODO: Korrekturmatrix für IQ-Imbalance
 
 \end{document}
 
