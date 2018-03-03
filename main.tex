@@ -31,7 +31,10 @@
         #2
 }
 
-\newcommand{\ftransform}{~\laplace~}
+\newcommand{\ftransform}{~~\laplace~~}
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
 
 \usepgfplotslibrary{fillbetween}
 
@@ -257,21 +260,93 @@ Für jedes Symbol steigt der Phasenoffset um
 \]
 
 \section*{OFDM und FFT / iFFT}
-Schrittgeschwindigkeit $R_s = \frac{1}{T_s}$, Abtastrate $R_{\mathrm{samp}}$, Bitrate $R_b$, Unterträgerabstand $\Delta f$, Bandbreite $B$:
-\[
-	R_{\mathrm{samp}} = N_{\mathrm{sub}} ~ R_s = B
-\]
+\begin{itemize}
+\item Ein \textbf{OFDM-Symbol} besteht üblicherweise aus \textbf{$N_{\mathrm{sub}}$ QAM-Symbolen} auf den jeweiligen Unterträgern
+\item OFDM-Symbol-\textbf{Schrittgeschwindigkeit} $R_s = \frac{1}{T_s}$
+\item \textbf{Abtastrate} $R_{\mathrm{samp}} = \frac{1}{T_{\mathrm{samp}}} = N_{\mathrm{sub}} ~ R_s = \frac{T_s}{N_{\mathrm{sub}}}$
+\item OFDM-Symbol-Index $k$ mit $t = k ~ T_s$
+\item Abtastwertindex $m$ (``schnelle Zeit'') mit $t = m ~ T_{\mathrm{samp}}$, d.h. $N_{\mathrm{sub}}$ Abtastwerte pro OFDM-Symbol
+\item Moduliere unterträger mit $M_b = \ld(M)$ bits pro Symbol
+\end{itemize}
+
+
+Dann gilt für Bitrate $R_b$, Unterträgerabstand $\Delta f$ und gesamte Bandbreite $B$:
 \[
 	R_b = M_b ~ N_{\mathrm{sub}} ~ R_s
+\]
+\[
+	B = R_{\mathrm{samp}} = N_{\mathrm{sub}} ~ R_s
 \]
 \[
 	\Delta f = R_s
 \]
 
-% TODO: FFT / iFFT-Matrix
+\tikzstyle{transform} = [rectangle, thick, draw, node distance=20pt and 20pt, text width=65pt, text centered, minimum height=40pt]
+\tikzstyle{converter} = [rectangle, thick, draw, node distance=20pt and 20pt, text width=30pt, text centered, minimum height=40pt, minimum width=40pt]
+\tikzstyle{channel} = [rectangle, thick, draw, node distance=20pt and 20pt, text width=65pt, text centered, rounded corners=3pt, minimum height=40pt, fill=green!20]
+\tikzstyle{dataflow} = [draw, -latex, thick]
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\node (input) {$\mathbf s_k$};
+		\node [transform, right = 0.3cm of input] (fh) {\huge $\mathbf F^H$};
+		\node [converter, right = of fh] (da) {D/A};
+		\node [channel, right = 2cm of da] (modulation) {Modulation auf Kanal};
+		\node [converter, right = of modulation] (ad) {A/D};
+		\node [transform, right = of ad] (f) {\huge $\mathbf F$};
+		\node [right = 0.3cm of f] (output) {$\hat{\mathbf s}_k$};
+
+		\path [dataflow] (input) -- (fh);
+		\path [dataflow] (fh) -- node[midway,above] {$\mathbf x_k$} (da);
+		\draw (da.east) to[lowpass, l=RLP] (modulation.west);
+		\path [dataflow] (modulation) -- (ad);
+		\path [dataflow] (ad) -- node[midway,above] {$\hat{\mathbf x}_k$} (f);
+		\path [dataflow] (f) -- (output);
+	\end{tikzpicture}
+	\caption*{OFDM-Sender und -Empfänger unter der Annahme, dass D/A bzw. A/D-Wandler direkt $N_{\mathrm{sub}}$ Symbole serialisieren / parallelisieren}
+\end{figure}
+
+Habe für $k = \left \lfloor \frac{m}{N_{\mathrm{sub}}} \right \rfloor$-ten Zeitschritt
+\begin{center}
+\begin{tabular}{r p{9cm}}
+	$m = k ~ N_{\mathrm{sub}}, \ldots, (k + 1) ~ N_{\mathrm{sub}} - 1$ & Schnelle Zeit mit $N_{\mathrm{sub}}$ Zeitindizes pro $k$ \\
+	$s_m \in \mathbb C$ & $N_\mathrm{sub}$ zu sendende Symbole \\
+	$\mathbf s_k = (s_{k N_\mathrm{sub}}, \ldots, s_{(k + 1) N_\mathrm{sub} - 1}) \in \mathbb C^{N_\mathrm{sub} \times 1}$ & Frequenzbereichsvektor mit $N_{\mathrm{sub}}$ zu sendenden Symbolen (parallelisiert aus $s_m$) \\
+	$\mathbf x_k \in \mathbb C^{N_\mathrm{sub} \times 1}$ & Zeitbereichsvektor mit $N_{\mathrm{sub}}$ zu sendenden Abtastwerden \\
+	$x_m = \mathbf x_k[m \mod N_{\mathrm{sub}}] \in \mathbb C$ & Zu sendende Abtastwerte (serialisiert aus $\mathbf x_k$) \\
+\end{tabular}
+\end{center}
+
+Es gilt (da $\mathbf F$ unitär):
+\[
+	\mathbf x_k = \mathbf F^H ~ \mathbf s_k \quad \Leftrightarrow \quad \mathbf s_k = \mathbf F ~ \mathbf x_k, \qquad \text{wobei} ~ \mathbf F^{-1} = \mathbf F^H = \mathbf F^*
+\]
+
+Mit $W := e^{\frac{2 \pi}{N_{\mathrm{sub}}}}$:
+\[
+	\mathbf F^H = \frac{1}{\sqrt{N_\mathrm{sub}}} \begin{pmatrix}
+		W^0 & W^0 & W^0 & \ldots & W^0 \\
+		W^0 & W^1 & W^2 & \ldots & W^{N_\mathrm{sub} - 1} \\
+		W^0 & W^2 & W^4 & \ldots & W^{2 (N_\mathrm{sub} - 1)} \\
+		\vdots & & & \ddots & \vdots \\
+		W^0 & W^{N_\mathrm{sub} - 1} & W^{2(N_\mathrm{sub} - 1)} & \ldots & W^{(N_\mathrm{sub} - 1)^2}
+	\end{pmatrix} \in \mathbb C^{N_\mathrm{sub} \times N_\mathrm{sub}}
+\]
+
+\[
+	\mathbf F = \frac{1}{\sqrt{N_\mathrm{sub}}} \begin{pmatrix}
+		W^0 & W^0 & W^0 & \ldots & W^0 \\
+		W^0 & W^{-1} & W^{-2} & \ldots & W^{-(N_\mathrm{sub} - 1)} \\
+		W^0 & W^{-2} & W^{-4} & \ldots & W^{-2 (N_\mathrm{sub} - 1)} \\
+		\vdots & & & \ddots & \vdots \\
+		W^0 & W^{-(N_\mathrm{sub} - 1)} & W^{-2(N_\mathrm{sub} - 1)} & \ldots & W^{-(N_\mathrm{sub} - 1)^2}
+	\end{pmatrix} \in \mathbb C^{N_\mathrm{sub} \times N_\mathrm{sub}}
+\]
 
 \section*{Mathe-Formelsammlung}
 \subsection*{Additionstheoreme}
+\begin{multicols}{2}
 \[ \sin(\alpha) ~ \cos(\beta) = \frac{1}{2} (\sin(\alpha - \beta) + \sin(\alpha + \beta)) \]
 \[ \cos(\alpha) ~ \cos(\beta) = \frac{1}{2} (\cos(\alpha - \beta) + \cos(\alpha + \beta)) \]
 \[ \sin(\alpha) ~ \sin(\beta) = \frac{1}{2} (\cos(\alpha - \beta) - \cos(\alpha + \beta)) \]
@@ -280,6 +355,7 @@ Schrittgeschwindigkeit $R_s = \frac{1}{T_s}$, Abtastrate $R_{\mathrm{samp}}$, Bi
 \[ \sin(\alpha - \beta) = \sin(\alpha) ~ \cos(\beta) - \cos(\alpha) ~ \sin(\beta) \]
 \[ \cos(\alpha + \beta) = \cos(\alpha) ~ \cos(\beta) - \sin(\alpha) ~ \sin(\beta) \]
 \[ \cos(\alpha - \beta) = \cos(\alpha) ~ \cos(\beta) + \sin(\alpha) ~ \sin(\beta) \]
+\end{multicols}
 \vspace{0.5pt}
 \[ \sin^2(\alpha) + \cos^2(\alpha) = 1 \]
 \[ \sin^2(\alpha) - \cos^2(\alpha) = -\cos(2\alpha) \]
@@ -434,11 +510,9 @@ Seien $T > 0$, $\omega_0 > 0$:
 \end{figure}
 
 
-% TODO: Anwendung der Q-Funktion irgendwie graphisch darstellen, also was bedeutet Q((D - a) / \sigma) bildlich?
-% TODO: Eigenschaften der Q-Funktion und PHI-Funktion
 % TODO: Mittlere signalleistung: E_s = E[|x|^2]
-% TODO: Definition raised cosine-Impuls, Bandbreite
-% TODO: Normierungsfaktor für M-PAM
+% TODO: Basisband SNR für 1D / 2D - Signal
+% TODO: Korrekturmatrix für IQ-Imbalance
 
 \end{document}
 
