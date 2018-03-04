@@ -179,9 +179,6 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 	\end{subfigure}
 \end{figure}
 
-
-% TODO: Möglicherweise Zeichnung von G(f)?
-
 \section*{Gray-Labelling}
 \begin{figure}[H]
 	\centering
@@ -285,9 +282,6 @@ Näherung für hohes SNR und Gray-Labeling:
 	P_{s, \mathrm{err}} = M_b ~ P_{b, \mathrm{err}}
 \]
 
-\section*{Partial-Response-Impulsformung}
-% TODO
-
 \section*{Puls-Amplituden Modulation (PAM)}
 \begin{figure}[H]
 	\begin{subfigure}{0.54\textwidth}
@@ -306,11 +300,48 @@ Näherung für hohes SNR und Gray-Labeling:
 	\end{subfigure}
 \end{figure}
 
-
-\section*{Einseitenband-AM und Hilbertfilter}
-% TODO
-
 \section*{QAM}
+Möchte Basisbandsignal $z(t) \in \mathbb C$ zu Bandpasssignal $u(t)$ mit Trägerfrequenz $f_0$, $\omega_0 = 2 \pi f_0$ modulieren.
+
+\raggedright
+Komplexe Darstellung (Fouriertransformation mit $\Re(z) = \frac{1}{2} (z + z^*)$):
+\[
+	u(t) = \Re \left \{ x(t) ~ e^{j \omega_0 t} \right \} \ftransform U(f) = \frac{1}{2} ~ \left( X(f - f_0) + X(f + f_0) \right)
+\]
+
+\raggedright
+Reelle Darstellung:
+\[
+	u(t) = \Re \{ x(t) \} ~ \cos(\omega_0 t) - \Im \{ x(t) \} ~ \sin(\omega_0 t) \ftransform U(f) = \frac{1}{2} ~ \left( X(f - f_0) + X(f + f_0) \right)
+\]
+
+\subsection*{Einseitenband-AM und Hilbertfilter}
+Idee: Ein analytisches Signal enthält keine negativen Frequenzen. Aus einem reellen Signal $x(t) \in \mathbb R$ kann ein analytisches Signal $z(t) \in \mathbb C$ ohne Informationsverlust erzeugt werden durch Filterung mit $F(f) = 1 + \sgn(f)$:
+\[
+	Z(f) = X(f) ~ F(f) = X(f) ~ (1 + \sgn(f)) = X(f) + X(f) ~ \sgn(f)
+\]
+
+\raggedright
+Mit $\sgn(f) ~~ \Laplace ~~ \frac{j}{\pi t}$ folgt Basisbandsignal für \textbf{upper sideband (USB)}-Modulation:
+\[
+	z_{\mathrm{USB}}(t) = x(t) + j \left(x(t) * \frac{1}{\pi t} \right)
+\]
+
+\raggedright
+Analog folgt durch Filterung mit $F(f) = 1 - \sgn(f)$ für \textbf{lower sideband (LSB)}-Modulation:
+\[
+	z_{\mathrm{LSB}}(t) = x(t) - j \left(x(t) * \frac{1}{\pi t} \right)
+\]
+
+$\implies$ $z_{\mathrm{USB}}(t)$ bzw. $z_{\mathrm{LSB}}(t)$ dann einer QAM zuführen!
+
+Das Filter
+\[
+	g(t) = \frac{1}{\pi t}
+\]
+wird \textbf{Hilbertfilter} genannt.
+
+\subsection*{Digitale QAM}
 Der \textit{\textbf{constellation mapper}} ordnet den Symbolen $M$ verschiedene I/Q-Werte (Konstellationen) zu. Pro Symbol werden also
 \[
 	M_b = \ld M ~ \left[ \frac{\mathrm{bit}}{\mathrm{symbol}} \right]
