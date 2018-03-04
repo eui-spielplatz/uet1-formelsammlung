@@ -193,7 +193,46 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 	\end{subfigure}
 \end{figure}
 
+\section*{Puls-Amplituden Modulation (PAM)}
+\begin{figure}[H]
+	\begin{subfigure}{0.54\textwidth}
+		\[
+			a_{k} \in \{-(M - 1) + 2l ~ | ~ l = 0, \ldots, M-1\}
+		\]
+
+		Für Normierung $P_S = E \left[|\tilde{a_k}|^2 \right] \overset{!}{=} 1$ wähle
+		\[
+			\tilde a_k = \mathrm{norm} \cdot a_k \quad \text{mit} \quad \mathrm{norm} = \frac{1}{\sqrt{\frac{M^2 - 1}{3}}}
+		\]
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{img/pamconstellation.pdf}
+		\caption*{Konstellation der (unnormierten) Symbole $a_k$}
+	\end{subfigure}
+\end{figure}
+
 \section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
+\subsection*{SNR, Signalleistung und Varianz}
+Sei $\sigma^2$ \ldots Varianz der Gaußverteilung und $E_s$ \ldots Signalleistung.
+
+\raggedright
+Für \textbf{reelles Basisband (AM)} gilt:
+\[
+	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{\sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{\mathrm{SNR}_s}}
+\]
+
+\raggedright
+Für \textbf{komplexes Basisband (QAM)} teilt sich die Rauschleistung auf beide Dimensionen auf:
+\[
+	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{{\color{red} 2} ~ \sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{2 ~ \mathrm{SNR}_s}}
+\]
+
+\raggedright
+Die mittlere \textbf{Signalleistung} $P_\mathrm{signal} = E_s$ ist durch den Erwartungswert der Symbolleistung ($x_k \in \mathbb C$ sind die Symbole) gegeben:
+\[
+	E_s = E[|x_k|^2] = \sum_k P_k |x_k|^2
+\]
+
 \subsection*{Allgemein}
 \begin{figure}[H]
 \centering
@@ -282,24 +321,6 @@ Näherung für hohes SNR und Gray-Labeling:
 	P_{s, \mathrm{err}} = M_b ~ P_{b, \mathrm{err}}
 \]
 
-\section*{Puls-Amplituden Modulation (PAM)}
-\begin{figure}[H]
-	\begin{subfigure}{0.54\textwidth}
-		\[
-			a_{k} \in \{-(M - 1) + 2l ~ | ~ l = 0, \ldots, M-1\}
-		\]
-
-		Für Normierung $P_S = E \left[|\tilde{a_k}|^2 \right] \overset{!}{=} 1$ wähle
-		\[
-			\tilde a_k = \mathrm{norm} \cdot a_k \quad \text{mit} \quad \mathrm{norm} = \frac{1}{\sqrt{\frac{M^2 - 1}{3}}}
-		\]
-	\end{subfigure}
-	\begin{subfigure}{0.45\textwidth}
-		\includegraphics[width=\textwidth]{img/pamconstellation.pdf}
-		\caption*{Konstellation der (unnormierten) Symbole $a_k$}
-	\end{subfigure}
-\end{figure}
-
 \section*{QAM}
 Möchte Basisbandsignal $z(t) \in \mathbb C$ zu Bandpasssignal $u(t)$ mit Trägerfrequenz $f_0$, $\omega_0 = 2 \pi f_0$ modulieren.
 
@@ -353,19 +374,6 @@ Bits übertragen. Mit einer \textbf{Symbolrate} (= Schrittgeschwindigkeit) $R_s 
 \]
 
 \section*{Sender- / Empfängerunzulänglichkeiten}
-\subsection*{Rauschen allgemein}
-Mit $\sigma^2$ \ldots Varianz der Gaußverteilung und $E_s = E[|x_k|^2]$ \ldots Signalleistung ($x_k$ sind die Symbole):
-
-Für reelles Basisband (AM) gilt:
-\[
-	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{\sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{\mathrm{SNR}_s}}
-\]
-
-Für komplexes Basisband (QAM) teilt sich die Rauschleistung auf beide Dimensionen auf:
-\[
-	\mathrm{SNR}_s = \frac{P_\mathrm{signal}}{P_\mathrm{noise}} = \frac{E_s}{N_0} = \frac{E_s}{{\color{red} 2} ~ \sigma^2} \quad \overset{E_s = 1}{\implies} \quad \sigma = \frac{1}{\sqrt{2 ~ \mathrm{SNR}_s}}
-\]
-
 \subsection*{Rauschen im Sender}
 TX-Rauschen wird durch den EVM-Wert (Error Vector Magnitude) angegeben. Am Senderausgang gilt:
 \[
