@@ -56,25 +56,38 @@
 \begin{document}
 
 \section*{Abstastung und Quantisierung}
-\fancyformula{Abtasttheorem}{
-	\[
-		f_s \geq 2 ~ f_{\mathrm{max}} = f_{s, N}
-	\]
-}
+\begin{multicols}{2}
+	\fancyformula{Abtasttheorem}{
+		\[
+			f_s \geq 2 ~ f_{\mathrm{max}} = f_{s, N}
+		\]
+	}
 
-\fancyformula{Nyquist-Frequenz}{
-	\[
-		f_N = \frac{1}{2} ~ f_s
-	\]
-}
+	\fancyformula{Nyquist-Frequenz}{
+		\[
+			f_N = \frac{1}{2} ~ f_s
+		\]
+	}
 
-\fancyformula{Nyquist-Rate}{
-	\[
-		f_{s, N} = 2 ~ f_{\mathrm{max}}
-	\]
-}
+	\fancyformula{Nyquist-Rate}{
+		\[
+			f_{s, N} = 2 ~ f_{\mathrm{max}}
+		\]
+	}
 
-% TODO: Rekonstruktions-Tiefpass-Filter
+	\fancyformula{Abtastung im Frequenzbereich}{
+		Für $x_k = x(t + k / f_s)$
+		\[
+			X_\mathrm{sampled}(f) = f_s ~ \sum_{n = -\infty}^\infty X(f - n f_s)
+		\]
+	}
+
+	\fancyformula{Grenzfrequenz Rekonstruktions-Tiefpass-Filter (RLP)}{
+		\[
+			f_\mathrm{max} < f_\mathrm{RLP} < f_s - f_\mathrm{max}
+		\]
+	}
+\end{multicols}
 
 \section*{Erstes Nyquist-Kriterium}
 Bei der Schrittgeschwindigkeit $R_s = \frac{1}{T_s}$ erfüllt ein Impuls $g(t)$ das erste Nyquist-Kriterium, wenn
