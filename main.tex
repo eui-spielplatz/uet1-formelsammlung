@@ -136,6 +136,19 @@ $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbol
 % TODO: Möglicherweise Zeichnung von G(f)?
 
 \section*{Gray-Labelling}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.45\textwidth}
+		\includegraphics[width=0.8\textwidth]{img/gray_tree.pdf}
+		\caption*{Konstruktion eines Gray-Codes mit Baum. Damit sich nur je ein Bit verändert, muss die Beschriftung symmetrisch sein.}
+	\end{subfigure}
+	\hspace{.07\textwidth}
+	\begin{subfigure}{.45\textwidth}
+		\includegraphics[width=0.8\textwidth]{img/gray_16qam.pdf}
+		\caption*{Gray-Labelling einer 16-QAM. Beschriftung mit Variablen wie bei Karnaugh-Diagramm und Wert $n$-ter Variable der $n$-ten Stelle zuordnen.}
+	\end{subfigure}
+\end{figure}
+
 \section*{Rauschen und Symbolfehlerwahrscheinlichkeit}
 \subsection*{Allgemein}
 \begin{figure}[H]
@@ -551,7 +564,6 @@ Seien $t_0 > 0$, $\omega_0 > 0$:
 
 
 % TODO: Mittlere signalleistung: E_s = E[|x|^2]
-% TODO: Basisband SNR für 1D / 2D - Signal
 
 \end{document}
 
