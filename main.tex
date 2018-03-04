@@ -37,6 +37,7 @@
 \usetikzlibrary{calc}
 
 \usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
 
 \DeclareMathOperator{\Si}{Si}
 \DeclareMathOperator{\sinc}{sinc}
@@ -112,39 +113,72 @@ Wenn das erste Nyquist-Kriterium erfüllt ist, dann gibt es keine Intersymbol-In
 \section*{Raised-Cosine-Impulsformung}
 $\alpha$ \ldots ``roll-off''-Faktor, $T = \frac{1}{R_s}$ mit $R_s$ \ldots Symbolrate. Für $\alpha = 0$ ist der Raised-Cosine-Impuls ein $\sinc$-Impuls, d.h. ein idealer Tiefpass.
 
-\begin{multicols}{2}
-	\fancyformula{Impulsantwort $g(t)$}{
-		\[
-			g(t) ~ T= \begin{cases}
-				1 & t = 0 \\
-				\frac{\sin(\pi / (2 \alpha))}{\pi / (2 \alpha)} ~ \frac{\pi}{4} & |t| = \frac{T}{2 \alpha} \\
-				\frac{\sin(\pi t / T)}{\pi t / T} ~ \frac{\cos(\alpha \pi t / T)}{1 - (2 \alpha t / T)^2} & \text{sonst}
-			\end{cases}
-		\]
-	}
+\begin{figure}[H]
+	\begin{subfigure}{0.7\textwidth}
+		\fancyformula{Spektrum $G(f)$}{
+			\[
+				G(f) = \begin{cases}
+					1 & |f| \leq \frac{1 - \alpha}{2T} \\ \\
+					\frac{1}{2} ~ \left(1 + \cos \left(\frac{\pi T}{\alpha} ~ (|f| - \frac{1 - \alpha}{2 T}) \right) \right) & \frac{1 - \alpha}{2 T} \leq |f| \leq \frac{1 + \alpha}{2 T} \\ \\
+					0 & \text{sonst}
+				\end{cases}
+			\]
+		}
 
-	\fancyformula{Basisband-Bandbreite}{
-		\[
-			B_{\mathrm{BB}} = \frac{1}{2} ~ (1 + \alpha) ~ R_s
-		\]
-	}
+		\fancyformula{Impulsantwort $g(t)$}{
+			\[
+				g(t) ~ T= \begin{cases}
+					1 & t = 0 \\ \\
+					\frac{\sin(\pi / (2 \alpha))}{\pi / (2 \alpha)} ~ \frac{\pi}{4} & |t| = \frac{T}{2 \alpha} \\ \\
+					\frac{\sin(\pi t / T)}{\pi t / T} ~ \frac{\cos(\alpha \pi t / T)}{1 - (2 \alpha t / T)^2} & \text{sonst}
+				\end{cases}
+			\]
+		}
+	\end{subfigure}
+	\begin{subfigure}{0.29\textwidth}
+		\def\rcosspectrum(#1, #2){(#1 <= -1 - #2) * 0 +
+				and(#1 >= -1 + #2, #1 <= 1 - #2) * 1 +
+				and(#1 > -1 - #2,  #1 < -1 + #2) * 0.5 * (1 + cos(pi / (2 * #2) * deg(abs(#1) - (1 - #2)))) +
+				and(#1 > 1 - #2,  #1 < 1 + #2) * 0.5 * (1 + cos(pi / (2 * #2) * deg(abs(#1) - (1 - #2)))) +
+				(#1 >= 1 + #2) * 0
+		}
 
-	\fancyformula{Spektrum $G(f)$}{
-		\[
-			G(f) = \begin{cases}
-				1 & |f| \leq \frac{1 - \alpha}{2T} \\
-				\frac{1}{2} ~ \left(1 + \cos \left(\frac{\pi T}{\alpha} ~ (|f| - \frac{1 - \alpha}{2 T}) \right) \right) & \frac{1 - \alpha}{2 T} \leq |f| \leq \frac{1 + \alpha}{2 T} \\
-				0 & \text{sonst}
-			\end{cases}
-		\]
-	}
+		\scalebox{0.8}{
+		\begin{tikzpicture}
+			\begin{axis}[ 
+				axis lines = center,
+				xlabel = {$f$},
+				ylabel = {$G(f)$},
+				xticklabels = {$-\frac{1}{2 T}$, $\frac{1}{2 T}$},
+				xtick = {-1, 1},
+				yticklabels = {$1$},
+				ytick = {1},
+				xmin = -2.2,
+				xmax = 2.2,
+				ymin = -0.3,
+				ymax = 1.2,
+				samples = 400
+			]
+				\addplot[green!60!black, thick, no marks]{\rcosspectrum(x, 0.1)};
+				\addplot[blue!60!black, thick, no marks]{\rcosspectrum(x, 0.5)};
+				\addplot[red!60!black, thick, no marks]{\rcosspectrum(x, 1.0)};
+			\end{axis}
+		\end{tikzpicture}}
 
-	\fancyformula{Bandpassbereich-Bandbreite}{
-		\[
-			B_{\mathrm{BP}} = (1 + \alpha) ~ R_s
-		\]
-	}
-\end{multicols}
+		\fancyformula{Basisband-Bandbreite}{
+			\[
+				B_{\mathrm{BB}} = \frac{1}{2} ~ (1 + \alpha) ~ R_s
+			\]
+		}
+
+		\fancyformula{Bandpassbereich-Bandbreite}{
+			\[
+				B_{\mathrm{BP}} = (1 + \alpha) ~ R_s
+			\]
+		}
+	\end{subfigure}
+\end{figure}
+
 
 % TODO: Möglicherweise Zeichnung von G(f)?
 
@@ -252,6 +286,8 @@ Näherung für hohes SNR und Gray-Labeling:
 \]
 
 \section*{Partial-Response-Impulsformung}
+% TODO
+
 \section*{Puls-Amplituden Modulation (PAM)}
 \begin{figure}[H]
 	\begin{subfigure}{0.54\textwidth}
@@ -272,6 +308,8 @@ Näherung für hohes SNR und Gray-Labeling:
 
 
 \section*{Einseitenband-AM und Hilbertfilter}
+% TODO
+
 \section*{QAM}
 Der \textit{\textbf{constellation mapper}} ordnet den Symbolen $M$ verschiedene I/Q-Werte (Konstellationen) zu. Pro Symbol werden also
 \[
